@@ -1,105 +1,57 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
+    public static StringBuilder sb = new StringBuilder();
+
     public static void main(String[] args) {
-        StringBuilder sb = new StringBuilder();
+        List<String> directories = new ArrayList<>();
 
-        File src = new File("Games/src");
-        if (src.mkdir()) {
-            sb.append("Директория " + src.getName() + " создана\n");
-        } else {
-            sb.append("Директория " + src.getName() + " не создана\n");
+        directories.add("C://Games/src");
+        directories.add("C://Games/res");
+        directories.add("C://Games/savegames");
+        directories.add("C://Games/temp");
+        directories.add("C://Games/src/main");
+        directories.add("C://Games/src/test");
+        directories.add("C://Games/res/drawables");
+        directories.add("C://Games/res/vectors");
+        directories.add("C://Games/res/icons");
+
+        for (String directory : directories) {
+            createDirectory(directory);
         }
 
-        File res = new File("Games/res");
-        if (res.mkdir()) {
-            sb.append("Директория " + res.getName() + " создана\n");
-        } else {
-            sb.append("Директория " + res.getName() + " не создана\n");
-        }
+        createFile("C://Games/src/main", "Main.java");
+        createFile("C://Games/src/main", "Utils.java");
+        createFile("C://Games/temp", "temp.txt");
 
-        File savegames = new File("Games/savegames");
-        if (savegames.mkdir()) {
-            sb.append("Директория " + savegames.getName() + " создана\n");
-        } else {
-            sb.append("Директория " + savegames.getName() + " не создана\n");
-        }
-
-        File temp = new File("Games/temp");
-        if (temp.mkdir()) {
-            sb.append("Директория " + temp.getName() + " создана\n");
-        } else {
-            sb.append("Директория " + temp.getName() + " не создана\n");
-        }
-
-        File main = new File("Games/src/main");
-        if (main.mkdir()) {
-            sb.append("Директория " + main.getName() + " создана\n");
-        } else {
-            sb.append("Директория " + main.getName() + " не создана\n");
-        }
-
-        File test = new File("Games/src/test");
-        if (test.mkdir()) {
-            sb.append("Директория " + test.getName() + " создана\n");
-        } else {
-            sb.append("Директория " + test.getName() + " не создана\n");
-        }
-
-        File javaMain = new File(main, "Main.java");
-        try {
-            if (javaMain.createNewFile()) {
-                sb.append("Файл " + javaMain.getName() + " создан\n");
-            }
-        } catch (IOException ex) {
-            sb.append(ex.getMessage());
-        }
-
-        File javaUtils = new File(main, "Utils.java");
-        try {
-            if (javaUtils.createNewFile()) {
-                sb.append("Файл " + javaUtils.getName() + " создан\n");
-            }
-        } catch (IOException ex) {
-            sb.append(ex.getMessage());
-        }
-
-        File drawables = new File("Games/res/drawables");
-        if (drawables.mkdir()) {
-            sb.append("Директория " + drawables.getName() + " создана\n");
-        } else {
-            sb.append("Директория " + drawables.getName() + " не создана\n");
-        }
-
-        File vectors = new File("Games/res/vectors");
-        if (vectors.mkdir()) {
-            sb.append("Директория " + vectors.getName() + " создана\n");
-        } else {
-            sb.append("Директория " + vectors.getName() + " не создана\n");
-        }
-
-        File icons = new File("Games/res/icons");
-        if (icons.mkdir()) {
-            sb.append("Директория " + icons.getName() + " создана\n");
-        } else {
-            sb.append("Директория " + icons.getName() + " не создана\n");
-        }
-
-        File txtTemp = new File(temp, "temp.txt");
-        try {
-            if (txtTemp.createNewFile()) {
-                sb.append("Файл " + txtTemp.getName() + " создан\n");
-            }
-        } catch (IOException ex) {
-            sb.append(ex.getMessage());
-        }
-
-        try (FileWriter fw = new FileWriter(txtTemp)) {
+        try (FileWriter fw = new FileWriter("C://Games/temp/temp.txt")) {
             fw.write(sb.toString());
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+        }
+    }
+
+    public static void createDirectory(String directoryName) {
+        File directory = new File(directoryName);
+        if (directory.mkdir()) {
+            sb.append("Директория " + directory.getName() + " создана\n");
+        } else {
+            sb.append("Директория " + directory.getName() + " не создана\n");
+        }
+    }
+
+    public static void createFile(String directoryName, String fileName) {
+        File file = new File(directoryName, fileName);
+        try {
+            if (file.createNewFile()) {
+                sb.append("Файл " + file.getName() + " создан\n");
+            }
+        } catch (IOException ex) {
+            sb.append(ex.getMessage());
         }
     }
 }
